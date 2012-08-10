@@ -17,18 +17,20 @@ To generate a self-signed certificate, run the following in your shell:
 
 This should leave you with two files, `cert.pem` (the certificate) and `key.pem` (the private key). This is all you need for a SSL connection. So now you set up a quick hello world example (the biggest difference between HTTPS and HTTP is the `options` parameter):
 
-    var https = require('https');
-    var fs = require('fs');
+```javascript
+var https = require('https');
+var fs = require('fs');
 
-    var options = {
-      key: fs.readFileSync('key.pem'),
-      cert: fs.readFileSync('cert.pem')
-    };
+var options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 
-    var a = https.createServer(options, function (req, res) {
-      res.writeHead(200);
-      res.end("hello world\n");
-    }).listen(8080);
+var a = https.createServer(options, function (req, res) {
+  res.writeHead(200);
+  res.end("hello world\n");
+}).listen(8080);
+```
 
 > Note that `fs.readFileSync` - unlike `fs.readFile`, `fs.readFileSync` will block the entire process until it completes.  In this situation, when Node has not yet started up the event loop, it is ok, but don't use synchronous functions inside callbacks, you slow down the event loop, crippling your server.
 
